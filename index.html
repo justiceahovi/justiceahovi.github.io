@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Justice Ahovi — Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --white: #FFFFFF;
+    --light: #E8ECEC;
+    --ink: #111111;
+    --ink-soft: #555555;
+    --border: #DDDDDD;
+    --mono: 'Space Mono', monospace;
+    --sans: 'Inter', sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: var(--sans); background: var(--white); color: var(--ink); min-height: 100vh; display: flex; flex-direction: column; }
+
+  .shell { display: flex; min-height: 100vh; }
+
+  /* SIDEBAR */
+  .sidebar {
+    width: 320px; min-width: 320px;
+    background: var(--white);
+    border-right: 1px solid var(--border);
+    display: flex; flex-direction: column; align-items: center;
+    padding: 3rem 2rem;
+    position: sticky; top: 0; height: 100vh; overflow-y: auto; overflow-x: hidden;
+  }
+
+  .avatar {
+    width: 170px; height: 170px; border-radius: 3px;
+    background: var(--light);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono); font-size: 2.5rem; color: var(--ink-soft);
+    margin-bottom: 1.75rem;
+  }
+
+  .sidebar-name {
+    font-family: var(--mono); font-size: 1rem; font-weight: 700;
+    color: var(--ink); margin-bottom: 0.4rem; text-align: center;
+  }
+
+  .sidebar-title {
+    font-size: 0.85rem; font-weight: 600; color: var(--ink-soft);
+    margin-bottom: 2rem; text-align: center;
+  }
+
+  .sidebar-btn {
+    display: block; width: 100%; padding: 0.85rem 1rem;
+    background: var(--ink); color: var(--white);
+    font-family: var(--sans); font-size: 0.85rem; font-weight: 600;
+    text-align: center; text-decoration: none; border: 1.5px solid var(--ink);
+    border-radius: 2px; cursor: pointer; margin-bottom: 0.75rem;
+    transition: background 0.15s, transform 0.15s;
+  }
+  .sidebar-btn:hover { background: #333; transform: translateY(-1px); }
+  .sidebar-btn.outline { background: var(--white); color: var(--ink); }
+  .sidebar-btn.outline:hover { background: var(--light); }
+
+  .social-row { display: flex; gap: 1.25rem; align-items: center; justify-content: center; margin-top: 2rem; }
+  .social-row a { color: var(--ink); text-decoration: none; transition: opacity 0.2s; display: flex; }
+  .social-row a:hover { opacity: 0.35; }
+  .social-row svg { width: 22px; height: 22px; fill: var(--ink); }
+
+  .sidebar-nav { list-style: none; width: 100%; margin-top: 2.5rem; border-top: 1px solid var(--border); padding-top: 1.5rem; }
+  .sidebar-nav li a {
+    display: block; padding: 0.45rem 0;
+    font-family: var(--mono); font-size: 0.75rem; color: var(--ink-soft);
+    text-decoration: none; letter-spacing: 0.05em; transition: color 0.15s;
+  }
+  .sidebar-nav li a::before { content: '// '; opacity: 0.3; }
+  .sidebar-nav li a:hover { color: var(--ink); }
+
+  /* MAIN */
+  .main { flex: 1; background: var(--light); overflow-y: auto; height: 100vh; }
+
+  .panel { padding: 4.5rem 4.5rem; border-bottom: 1px solid var(--border); }
+  .panel-white { background: var(--white); }
+  .panel-grey { background: var(--light); }
+  .panel-center { display: flex; flex-direction: column; align-items: center; text-align: center; }
+
+  .code-heading {
+    font-family: var(--mono); font-size: clamp(1.5rem, 3vw, 2.2rem);
+    font-weight: 700; color: var(--ink); margin-bottom: 2rem; letter-spacing: -0.02em;
+  }
+
+  /* ABOUT */
+  .about-text {
+    font-size: 1rem; color: var(--ink-soft); line-height: 1.9;
+    max-width: 580px; margin-bottom: 2.5rem; font-weight: 300;
+  }
+  .about-text strong { color: var(--ink); font-weight: 600; }
+
+  .about-btn-row { display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; }
+
+  .panel-btn {
+    display: inline-block; padding: 0.85rem 2.5rem;
+    background: var(--ink); color: var(--white);
+    font-family: var(--sans); font-size: 0.85rem; font-weight: 600;
+    text-decoration: none; border: none; border-radius: 2px;
+    cursor: pointer; letter-spacing: 0.03em;
+    transition: background 0.15s, transform 0.15s;
+  }
+  .panel-btn:hover { background: #333; transform: translateY(-1px); }
+
+  .about-details-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    margin-top: 3rem; border: 1px solid var(--border);
+    background: var(--white); max-width: 560px; width: 100%;
+  }
+  .detail-cell {
+    padding: 1rem 1.25rem;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .detail-cell:nth-child(even) { border-right: none; }
+  .detail-cell:nth-last-child(-n+2) { border-bottom: none; }
+  .detail-cell-key { font-family: var(--mono); font-size: 0.63rem; color: var(--ink-soft); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 0.2rem; }
+  .detail-cell-val { font-size: 0.85rem; font-weight: 500; color: var(--ink); }
+
+  /* SKILLS */
+  .skills-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+  .skill-block { background: var(--white); padding: 2rem; }
+  .skill-block h3 { font-family: var(--mono); font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink); margin-bottom: 1rem; }
+  .tag-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .skill-tag {
+    font-family: var(--mono); font-size: 0.7rem; padding: 0.28rem 0.65rem;
+    border: 1px solid var(--border); background: var(--light); color: var(--ink);
+    border-radius: 2px; transition: all 0.15s; cursor: default;
+  }
+  .skill-tag:hover { background: var(--ink); color: var(--white); border-color: var(--ink); }
+
+  /* PROJECTS */
+  .project-item {
+    border: 1px solid var(--border); background: var(--white);
+    padding: 1.75rem 2rem; margin-bottom: 1px;
+    display: grid; grid-template-columns: 44px 1fr auto;
+    gap: 1.5rem; align-items: start; transition: background 0.15s;
+  }
+  .project-item:hover { background: #f4f4f4; }
+  .project-num { font-family: var(--mono); font-size: 0.72rem; color: var(--ink-soft); padding-top: 3px; }
+  .project-name { font-family: var(--mono); font-size: 0.92rem; font-weight: 700; color: var(--ink); margin-bottom: 0.35rem; }
+  .project-desc { font-size: 0.87rem; color: var(--ink-soft); font-weight: 300; line-height: 1.7; }
+  .project-badge { font-family: var(--mono); font-size: 0.65rem; padding: 0.25rem 0.6rem; border: 1px solid var(--border); background: var(--light); color: var(--ink-soft); border-radius: 2px; white-space: nowrap; margin-top: 3px; }
+  .proj-link { display: inline-block; margin-top: 0.6rem; font-family: var(--mono); font-size: 0.7rem; color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--ink); padding-bottom: 1px; transition: opacity 0.15s; }
+  .proj-link:hover { opacity: 0.4; }
+
+  /* CONTACT */
+  .contact-grid { display: grid; grid-template-columns: 1fr 1.3fr; gap: 4rem; align-items: start; }
+  .contact-info p { font-size: 0.95rem; color: var(--ink-soft); font-weight: 300; line-height: 1.85; margin-bottom: 2rem; }
+  .contact-line { display: flex; align-items: baseline; gap: 0.75rem; padding: 0.85rem 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; }
+  .contact-line:last-child { border-bottom: none; }
+  .contact-line-key { font-family: var(--mono); font-size: 0.65rem; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.08em; min-width: 68px; }
+  .contact-line a, .contact-line span { color: var(--ink); text-decoration: none; font-weight: 500; font-size: 0.88rem; }
+  .contact-line a:hover { text-decoration: underline; }
+
+  .contact-form { display: flex; flex-direction: column; gap: 1rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.35rem; }
+  .form-group label { font-family: var(--mono); font-size: 0.65rem; color: var(--ink-soft); text-transform: uppercase; letter-spacing: 0.08em; }
+  .form-group input, .form-group textarea {
+    background: var(--light); border: 1px solid var(--border);
+    padding: 0.8rem 0.9rem; font-family: var(--sans); font-size: 0.88rem;
+    color: var(--ink); outline: none; border-radius: 2px; transition: border-color 0.15s; resize: vertical;
+  }
+  .form-group input:focus, .form-group textarea:focus { border-color: var(--ink); background: var(--white); }
+  .form-group input::placeholder, .form-group textarea::placeholder { color: #aaa; }
+
+  /* DESIGN GRID */
+  .design-divider {
+    display: flex; align-items: center; gap: 1rem;
+    margin: 2.5rem 0 1.5rem;
+  }
+  .design-divider span {
+    font-family: var(--mono); font-size: 0.7rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-soft);
+    white-space: nowrap;
+  }
+  .design-divider::before, .design-divider::after {
+    content: ''; flex: 1; height: 1px; background: var(--border);
+  }
+
+  .design-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .design-cell {
+    background: var(--white);
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+  }
+
+  .design-cell img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+
+  .design-cell:hover img { transform: scale(1.04); }
+
+  .design-cell-placeholder {
+    width: 100%; height: 100%;
+    background: var(--light);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 0.5rem;
+    color: var(--ink-soft);
+  }
+
+  .design-cell-placeholder svg { width: 28px; height: 28px; fill: var(--border); }
+  .design-cell-placeholder span {
+    font-family: var(--mono); font-size: 0.65rem;
+    letter-spacing: 0.08em; text-transform: uppercase; color: var(--border);
+  }
+
+  .design-overlay {
+    position: absolute; inset: 0;
+    background: rgba(17,17,17,0.7);
+    display: flex; align-items: flex-end;
+    padding: 1rem;
+    opacity: 0; transition: opacity 0.2s;
+  }
+  .design-cell:hover .design-overlay { opacity: 1; }
+  .design-overlay span {
+    font-family: var(--mono); font-size: 0.7rem;
+    color: #fff; letter-spacing: 0.06em;
+  }
+
+  @media (max-width: 860px) {
+    .design-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  footer {
+    text-align: center; padding: 1.75rem;
+    font-family: var(--mono); font-size: 0.7rem; color: var(--ink-soft);
+    background: var(--white); border-top: 1px solid var(--border);
+  }
+
+  /* BOTTOM NAV — hidden on desktop */
+  .bottom-nav { display: none; }
+
+  @media (max-width: 860px) {
+    .shell { flex-direction: column; }
+
+    /* Sidebar becomes full-width stacked header */
+    .sidebar {
+      width: 100%; min-width: unset; height: auto;
+      position: static; border-right: none;
+      border-bottom: 1px solid var(--border);
+      padding: 2.5rem 2rem;
+      flex-direction: column; align-items: center;
+    }
+
+    .sidebar-nav { display: none; }
+
+    .avatar { width: 170px; height: 170px; font-size: 2.5rem; margin-bottom: 1.75rem; }
+
+    .sidebar-name { font-size: 1rem; text-align: center; }
+    .sidebar-title { text-align: center; margin-bottom: 2rem; }
+
+    .sidebar-identity-wrap { display: flex; flex-direction: column; align-items: center; width: 100%; }
+
+    .sidebar-btn { margin-bottom: 0.75rem; width: 100%; }
+
+    .social-row { width: 100%; margin-top: 2rem; justify-content: center; }
+    .social-row svg { width: 22px; height: 22px; }
+
+    /* Extra bottom padding so content clears the bottom nav */
+    .main { padding-bottom: 68px; }
+
+    .panel { padding: 2.5rem 1.25rem; }
+    .skills-grid, .contact-grid, .form-row, .about-details-grid { grid-template-columns: 1fr; }
+    .detail-cell { border-right: none; }
+    .project-item { grid-template-columns: 36px 1fr; }
+    .project-badge { display: none; }
+
+    /* BOTTOM NAV BAR */
+    .bottom-nav {
+      display: flex;
+      position: fixed; bottom: 0; left: 0; right: 0; z-index: 999;
+      background: var(--white);
+      border-top: 1.5px solid var(--border);
+      height: 64px;
+    }
+
+    .bottom-nav a {
+      flex: 1;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 3px;
+      text-decoration: none;
+      color: var(--ink-soft);
+      font-family: var(--mono);
+      font-size: 0.55rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      border-right: 1px solid var(--border);
+      transition: color 0.15s, background 0.15s;
+      padding: 0 0.25rem;
+    }
+    .bottom-nav a:last-child { border-right: none; }
+    .bottom-nav a.active { color: var(--ink); background: var(--light); }
+    .bottom-nav a svg { width: 20px; height: 20px; fill: currentColor; }
+  }
+</style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-identity-wrap">
+      <div class="avatar">JA</div>
+      <div>
+        <div class="sidebar-name">&lt;JUSTICE AHOVI&gt;</div>
+        <div class="sidebar-title">Product Manager &amp; Web Developer</div>
+      </div>
+    </div>
+    <a href="/cdn-cgi/l/email-protection#d7b6bfb8a1bebda2a4a3beb4b2ee97b0bab6bebbf9b4b8ba" class="sidebar-btn">Email Me</a>
+    <a href="Justice_Ahovi_Resume.pdf" download class="sidebar-btn outline">Download Resume</a>
+    <div class="social-row">
+      <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+      <a href="#" aria-label="Twitter"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.253 5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+      <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+      <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+    </div>
+    <ul class="sidebar-nav">
+      <li><a href="#about">About Me</a></li>
+      <li><a href="#skills">Skills</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <section class="panel panel-grey panel-center" id="about">
+      <h2 class="code-heading">&lt;/About Me&gt;</h2>
+      <p class="about-text">I'm a <strong>Product Manager and Laravel/PHP Developer</strong> based in Accra, Ghana, with 5+ years of experience delivering agile products, full-stack web platforms, and high-volume ticketing operations. I've built and shipped real platforms, led SCRUM teams from backlog to release, and managed ticket resale across major global events like the <strong>Olympics and Champions League</strong> — maintaining a 98% client satisfaction rate. I'm equally comfortable writing code and owning a product roadmap.</p>
+      <div class="about-btn-row">
+        <a href="Justice_Ahovi_Resume.pdf" download class="panel-btn">Resume</a>
+        <a href="#projects" class="panel-btn">Portfolio</a>
+      </div>
+      <div class="about-details-grid">
+        <div class="detail-cell"><div class="detail-cell-key">Location</div><div class="detail-cell-val">Accra, Ghana</div></div>
+        <div class="detail-cell"><div class="detail-cell-key">Education</div><div class="detail-cell-val">BSc IT — KNUST</div></div>
+        <div class="detail-cell"><div class="detail-cell-key">Stack</div><div class="detail-cell-val">Laravel, PHP, JS, MySQL</div></div>
+        <div class="detail-cell"><div class="detail-cell-key">Status</div><div class="detail-cell-val" style="color:#2e7d5e;">Open to roles</div></div>
+      </div>
+    </section>
+
+    <section class="panel panel-white" id="skills">
+      <h2 class="code-heading">&lt;/Skills&gt;</h2>
+      <div class="skills-grid">
+        <div class="skill-block"><h3>Web Development</h3><div class="tag-list"><span class="skill-tag">PHP</span><span class="skill-tag">Laravel</span><span class="skill-tag">HTML</span><span class="skill-tag">CSS</span><span class="skill-tag">JavaScript</span><span class="skill-tag">MySQL</span><span class="skill-tag">Git</span></div></div>
+        <div class="skill-block"><h3>Product &amp; Agile</h3><div class="tag-list"><span class="skill-tag">SCRUM</span><span class="skill-tag">Jira</span><span class="skill-tag">Sprint Planning</span><span class="skill-tag">Backlog Mgmt</span><span class="skill-tag">User Stories</span><span class="skill-tag">Stakeholder Mgmt</span></div></div>
+        <div class="skill-block"><h3>Ticketing &amp; Events</h3><div class="tag-list"><span class="skill-tag">Ticketmaster</span><span class="skill-tag">Ticket Resale</span><span class="skill-tag">Pricing Strategy</span><span class="skill-tag">Inventory Mgmt</span><span class="skill-tag">Client Experience</span></div></div>
+        <div class="skill-block"><h3>IT &amp; Systems</h3><div class="tag-list"><span class="skill-tag">Network Config</span><span class="skill-tag">IT Support</span><span class="skill-tag">Hardware</span><span class="skill-tag">OS Admin</span><span class="skill-tag">Diagnostics</span></div></div>
+      </div>
+    </section>
+
+    <section class="panel panel-grey" id="projects">
+      <h2 class="code-heading">&lt;/Projects &amp; Design&gt;</h2>
+      <div class="project-item"><span class="project-num">01</span><div><div class="project-name">Litefans.com</div><div class="project-desc">Scalable content-sharing platform with user authentication, role-based access, and payment gateway integration. Built end-to-end using Laravel &amp; PHP.</div><a href="https://litefans.com" target="_blank" class="proj-link">Visit site ↗</a></div><span class="project-badge">Laravel / PHP</span></div>
+      <div class="project-item"><span class="project-num">02</span><div><div class="project-name">Prolinkgh.org</div><div class="project-desc">Responsive website for an NGO — designed and developed with a focus on accessibility and clean UX using HTML, CSS, PHP, and Laravel.</div><a href="https://prolinkgh.org" target="_blank" class="proj-link">Visit site ↗</a></div><span class="project-badge">Web Dev</span></div>
+      <div class="project-item"><span class="project-num">03</span><div><div class="project-name">AkosomboFC.com</div><div class="project-desc">Full website for a sports academy — responsive, branded, and optimized for performance. Delivered independently from design to deployment.</div><a href="https://akosombofc.com" target="_blank" class="proj-link">Visit site ↗</a></div><span class="project-badge">Web Dev</span></div>
+      <div class="project-item"><span class="project-num">04</span><div><div class="project-name">School Management System</div><div class="project-desc">Full system covering student enrollment, attendance tracking, and reporting modules. Independently built at AeTechnovation Ltd.</div></div><span class="project-badge">PHP / MySQL</span></div>
+      <div class="project-item"><span class="project-num">05</span><div><div class="project-name">One Dot World — Digital Product</div><div class="project-desc">Led full agile product lifecycle as Product Owner &amp; SCRUM Master. Translated stakeholder needs into a shipped digital product across cross-functional teams.</div></div><span class="project-badge">Product Mgmt</span></div>
+
+      <!-- DESIGN WORK -->
+      <div class="design-divider"><span>Graphic Design Work</span></div>
+      <div class="design-grid">
+
+        <div class="design-cell">
+          <!-- Replace src with your image: <img src="design1.jpg" alt="Design 1"/> -->
+          <div class="design-cell-placeholder">
+            <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+            <span>Image 1</span>
+          </div>
+          <div class="design-overlay"><span>Design Work</span></div>
+        </div>
+
+        <div class="design-cell">
+          <!-- Replace src with your image: <img src="design2.jpg" alt="Design 2"/> -->
+          <div class="design-cell-placeholder">
+            <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+            <span>Image 2</span>
+          </div>
+          <div class="design-overlay"><span>Design Work</span></div>
+        </div>
+
+        <div class="design-cell">
+          <!-- Replace src with your image: <img src="design3.jpg" alt="Design 3"/> -->
+          <div class="design-cell-placeholder">
+            <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+            <span>Image 3</span>
+          </div>
+          <div class="design-overlay"><span>Design Work</span></div>
+        </div>
+
+        <div class="design-cell">
+          <!-- Replace src with your image: <img src="design4.jpg" alt="Design 4"/> -->
+          <div class="design-cell-placeholder">
+            <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+            <span>Image 4</span>
+          </div>
+          <div class="design-overlay"><span>Design Work</span></div>
+        </div>
+
+        <div class="design-cell">
+          <!-- Replace src with your image: <img src="design5.jpg" alt="Design 5"/> -->
+          <div class="design-cell-placeholder">
+            <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+            <span>Image 5</span>
+          </div>
+          <div class="design-overlay"><span>Design Work</span></div>
+        </div>
+
+        <div class="design-cell">
+          <!-- Replace src with your image: <img src="design6.jpg" alt="Design 6"/> -->
+          <div class="design-cell-placeholder">
+            <svg viewBox="0 0 24 24"><path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/></svg>
+            <span>Image 6</span>
+          </div>
+          <div class="design-overlay"><span>Design Work</span></div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="panel panel-white" id="contact">
+      <h2 class="code-heading">&lt;/Contact&gt;</h2>
+      <div class="contact-grid">
+        <div class="contact-info">
+          <p>Whether you're looking for a product manager, a Laravel developer, or someone who can do both — I'd love to hear from you.</p>
+          <div class="contact-line"><span class="contact-line-key">Email</span><a href="/cdn-cgi/l/email-protection#87e6efe8f1eeedf2f4f3eee4e2bec7e0eae6eeeba9e4e8ea"><span class="__cf_email__" data-cfemail="87e6efe8f1eeedf2f4f3eee4e2bec7e0eae6eeeba9e4e8ea">[email&#160;protected]</span></a></div>
+          <div class="contact-line"><span class="contact-line-key">Phone</span><a href="tel:+233249510123">+233 249 510 123</a></div>
+          <div class="contact-line"><span class="contact-line-key">Alt</span><a href="tel:+233505623374">+233 505 623 374</a></div>
+          <div class="contact-line"><span class="contact-line-key">Location</span><span>Accra, Ghana</span></div>
+        </div>
+        <form class="contact-form" onsubmit="handleSubmit(event)">
+          <div class="form-row">
+            <div class="form-group"><label>Name</label><input type="text" name="name" placeholder="Your name" required/></div>
+            <div class="form-group"><label>Email</label><input type="email" name="email" placeholder="your@email.com" required/></div>
+          </div>
+          <div class="form-group"><label>Subject</label><input type="text" name="subject" placeholder="What's this about?"/></div>
+          <div class="form-group"><label>Message</label><textarea rows="5" name="message" placeholder="Tell me about your project or opportunity..." required></textarea></div>
+          <button type="submit" class="panel-btn" id="sendBtn">Send Message</button>
+        </form>
+      </div>
+    </section>
+
+    <footer>&lt;!-- © 2026 Justice Ahovi. All rights reserved. --&gt;</footer>
+  </main>
+</div>
+
+<!-- BOTTOM NAV (mobile only) -->
+<nav class="bottom-nav">
+  <a href="#about" class="active">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+    About
+  </a>
+  <a href="#skills">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
+    Skills
+  </a>
+  <a href="#projects">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 6h-2.18c.07-.44.18-.88.18-1.34C18 2.54 15.96.5 13.5.5c-1.3 0-2.45.56-3.3 1.44L9 3.16 7.8 1.94C6.95 1.06 5.8.5 4.5.5 2.04.5 0 2.54 0 4.66c0 .46.11.9.18 1.34H0v13c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-7.5-4c1.38 0 2.5 1.12 2.5 2.5 0 .34-.07.66-.17.96L9.17 9.46C9.07 9.16 9 8.84 9 8.5 9 7.12 10.12 6 11.5 6H12.5zm-8 0C5.88 2 7 3.12 7 4.5c0 .34-.07.66-.17.96L2.67 9.46C2.57 9.16 2.5 8.84 2.5 8.5 2.5 7.12 3.62 6 4.5 6V2zm15.5 16H2V8h18v10z"/></svg>
+    Work
+  </a>
+  <a href="#contact">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+    Contact
+  </a>
+</nav>
+
+<script>
+  // ── SCROLL TRACKING via Intersection Observer ──
+  const mainEl = document.querySelector('.main');
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.bottom-nav a');
+
+  function setActive(id) {
+    navLinks.forEach(a => {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + id);
+    });
+  }
+
+  // Use IntersectionObserver with viewport as root — works regardless of what scrolls
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        setActive(entry.target.id);
+      }
+    });
+  }, {
+    root: null,           // use the actual viewport
+    rootMargin: '0px 0px -50% 0px',  // trigger when section crosses top half of screen
+    threshold: 0          // fire as soon as any pixel is visible in that zone
+  });
+
+  sections.forEach(s => observer.observe(s));
+
+  // On nav click, set immediately then re-observe after scroll settles
+  navLinks.forEach(a => {
+    a.addEventListener('click', function() {
+      const id = this.getAttribute('href').replace('#', '');
+      setActive(id);
+    });
+  });
+
+  // ── FORMSPREE CONTACT FORM ──
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const btn = document.getElementById('sendBtn');
+    const form = e.target;
+    const data = new FormData(form);
+
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch('https://formspree.io/f/mykndnnn', {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (res.ok) {
+        btn.textContent = 'Sent ✓';
+        btn.style.background = '#2e7d5e';
+        form.reset();
+        setTimeout(() => {
+          btn.textContent = 'Send Message';
+          btn.style.background = '';
+          btn.disabled = false;
+        }, 3000);
+      } else {
+        btn.textContent = 'Error — try again';
+        btn.disabled = false;
+      }
+    } catch (err) {
+      btn.textContent = 'Error — try again';
+      btn.disabled = false;
+    }
+  }
+</script>
+</body>
+</html>
